@@ -1,5 +1,6 @@
 import type { Comment } from "@prisma/client";
 import { db } from "../db";
+import { cache } from "react";
 
 // export type CommentWithData  = {
 
@@ -14,7 +15,8 @@ export type CommentWithData = Awaited<
 //         image: string | null;
 //     };
 // } & Comment)
-export function fetchCommentsByPostId(postId: string) {
+export const fetchCommentsByPostId = cache((postId: string) => {
+  console.log("query");
   return db.comment.findMany({
     where: { postId },
     include: {
@@ -26,4 +28,4 @@ export function fetchCommentsByPostId(postId: string) {
       },
     },
   });
-}
+});

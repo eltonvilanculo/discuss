@@ -2,9 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { auth } from "@/auth";
-import { db } from "@/db";
-import paths from "@/paths";
+import { auth } from "@/helpers/auth";
+import { db } from "@/db/db";
+import paths from "@/helpers/path";
 
 const createCommentSchema = z.object({
   content: z.string().min(3),
@@ -79,7 +79,7 @@ export async function createComment(
     };
   }
 
-  revalidatePath(paths.postShow(topic.slug, postId));
+  revalidatePath(paths.showPost(topic.slug, postId));
   return {
     errors: {},
     success: true,
